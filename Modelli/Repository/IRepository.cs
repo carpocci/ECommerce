@@ -11,19 +11,15 @@ namespace Modelli.Repository
     {
         #region Utente
 
-        //Utente CreateUtente(Utente utente);
         DtoUtente CreateUtente(CreateUtente createUtente);
 
-        //List<Utente> ReadUtente(String ricerca);
-        List<DtoUtente> CercaUtente(ReadUtente readUtente);
+        List<DtoUtente> SearchUtente(ReadUtente readUtente);
 
-        DtoUtente UpdateUtente(UpdateUtente updateUtente);
+        DtoUtente EditUtente(UpdateUtente updateUtente);
 
-        Utente DeleteUtente(Utente utente);
-        //Utente DeleteUtente(DeleteUtente deleteUtente);
+        DtoUtente DeleteUtente(DeleteUtente deleteUtente);
 
-        Utente GetUtenteById(long id);
-        //Utente GetByIdUtente(long id);
+        DtoUtente GetUtenteById(long id);
 
         #endregion
 

@@ -15,13 +15,13 @@ namespace API.Controllers
         [HttpGet(Name = nameof(ListaUtenti))]
         public List<DtoUtente> ListaUtenti()
         {
-            return Repository.CercaUtente(new());
+            return Repository.SearchUtente(new());
         }
 
         [HttpPost(Name = nameof(CercaUtente))]
-        public List<DtoUtente> CercaUtente(ReadUtente readUtente)
+        public List<DtoUtente> CercaUtente(ReadUtente utente)
         {
-            return Repository.CercaUtente(readUtente);
+            return Repository.SearchUtente(utente);
         }
 
         [HttpPost(Name = nameof(CreaUtente))]
@@ -33,11 +33,11 @@ namespace API.Controllers
         [HttpPut(Name = nameof(ModificaUtente))]
         public DtoUtente ModificaUtente(UpdateUtente utente)
         {
-            return Repository.UpdateUtente(utente);
+            return Repository.EditUtente(utente);
         }
 
         [HttpDelete(Name = nameof(CancellaUtente))]
-        public Utente CancellaUtente(Utente utente)
+        public DtoUtente CancellaUtente(DeleteUtente utente)
         {
             return Repository.DeleteUtente(utente);
         }

@@ -43,7 +43,7 @@ public class Repository : IRepository
         return Mapper.Map<DtoUtente>(utente);
     }
 
-    public List<DtoUtente> CercaUtente(ReadUtente readUtente)
+    public List<DtoUtente> SearchUtente(ReadUtente readUtente)
     {
         //DbSet<Utente> dbSetUtenti = Context.ListaUtenti;
         //IQueryable<Utente> iQueryableUtenti = dbSetUtenti.Where(u => u.Username.Contains(ricerca) || u.Nome.Contains(ricerca) || u.Cognome.Contains(ricerca));
@@ -61,11 +61,11 @@ public class Repository : IRepository
 
     }
 
-    public DtoUtente UpdateUtente(UpdateUtente updateUtente)
+    public DtoUtente EditUtente(UpdateUtente updateUtente)
     {
         Utente utente = Context.ListaUtenti.Where(u => u.Id == updateUtente.Id).First();
 
-        if ( updateUtente.Username != null)
+        if (updateUtente.Username != null)
             utente.Username = updateUtente.Username;
         if (updateUtente.Nome != null)
             utente.Nome = updateUtente.Nome;
@@ -77,16 +77,17 @@ public class Repository : IRepository
         return Mapper.Map<DtoUtente>(utente);
     }
 
-    public Utente DeleteUtente(Utente utente)
+    public DtoUtente DeleteUtente(DeleteUtente deleteUtente)
     {
+        Utente utente = Context.ListaUtenti.Where(u => u.Id == deleteUtente.Id).First();
         Context.Remove(utente);
         Context.SaveChanges();
-        return utente;
+        return Mapper.Map<DtoUtente>(utente);
     }
 
-    public Utente? GetUtenteById(long id)
+    public DtoUtente GetUtenteById(long id)
     {
-        return Context.Find<Utente>(id);
+        return Mapper.Map<DtoUtente>(Context.ListaUtenti.Where(u => u.Id == id).First());
 
     }
 
