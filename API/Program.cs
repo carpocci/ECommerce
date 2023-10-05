@@ -2,6 +2,8 @@ using Business;
 using Microsoft.EntityFrameworkCore;
 using Modelli;
 using Modelli.Repository;
+using Business.GraphQL.Query;
+using Business.GraphQL.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,15 @@ builder.Services.AddPooledDbContextFactory<ECommerceDbContext>(opt =>
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IBusiness, Business.Business>();
 
+builder.Services
+    .AddGraphQLServer()
+    .AllowIntrospection(true)
+    .AddQueryType<GqlQuery>()
+    .AddType<UtenteObjectType>()
+    .AddType<ProdottoObjectType>()
+    .AddType<AcquistoObjectType>()
+    .AddFiltering()
+    .AddSorting();
 
 var app = builder.Build();
 
@@ -30,7 +41,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
+
+app.MapGraphQL("/webapi/Gql");
 
 app.MapControllers();
 
