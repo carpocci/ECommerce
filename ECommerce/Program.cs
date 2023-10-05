@@ -1,5 +1,5 @@
-﻿using Modelli;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Modelli;
 using Modelli.Repository;
 
 

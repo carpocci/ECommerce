@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business;
+using Business.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Modelli;
-using Modelli.Repository;
-using Modelli.Dto;
 
 namespace API.Controllers
 {
@@ -10,36 +8,50 @@ namespace API.Controllers
     [Route("[controller]/[action]")]
     public class UtentiController : GenericControllerBase
     {
-        public UtentiController(IRepository repository) : base(repository) { }
+        public UtentiController(IBusiness business) : base(business) { }
 
         [HttpGet(Name = nameof(ListaUtenti))]
         public List<DtoUtente> ListaUtenti()
         {
-            return Repository.SearchUtente(new());
+            return Business.SearchUtente(new());
         }
 
         [HttpPost(Name = nameof(CercaUtente))]
         public List<DtoUtente> CercaUtente(ReadUtente utente)
         {
-            return Repository.SearchUtente(utente);
+            return Business.SearchUtente(utente);
         }
 
         [HttpPost(Name = nameof(CreaUtente))]
         public DtoUtente CreaUtente(CreateUtente utente)
         {
-            return Repository.CreateUtente(utente);
+            return Business.CreateUtente(utente);
         }
 
         [HttpPut(Name = nameof(ModificaUtente))]
-        public DtoUtente ModificaUtente(UpdateUtente utente)
+        public ActionResult<DtoUtente> ModificaUtente(UpdateUtente utente)
         {
-            return Repository.EditUtente(utente);
+            try
+            {
+                return Ok(Business.EditUtente(utente));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete(Name = nameof(CancellaUtente))]
-        public DtoUtente CancellaUtente(DeleteUtente utente)
+        public ActionResult<DtoUtente> CancellaUtente(DeleteUtente utente)
         {
-            return Repository.DeleteUtente(utente);
+            try
+            {
+                return Ok(Business.DeleteUtente(utente));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

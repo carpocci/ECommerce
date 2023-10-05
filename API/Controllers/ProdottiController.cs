@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business;
+using Business.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Modelli;
-using Modelli.Repository;
 
 namespace API.Controllers
 {
@@ -9,21 +8,21 @@ namespace API.Controllers
     [Route("[controller]/[action]")]
     public class ProdottiController : GenericControllerBase
     {
-        public ProdottiController(IRepository repository) : base(repository) { }
+        public ProdottiController(IBusiness business) : base(business) { }
 
 
         [HttpGet(Name = nameof(GetProdotto))]
-        public List<Prodotto> GetProdotto(string query = "", bool hideOutOfStockItems = true)
+        public List<DtoProdotto> GetProdotto(ReadProdotto readProdotto, bool hideOutOfStockItems = true)
         {
-            return Repository.ReadProdotto(query, hideOutOfStockItems);
+            return Business.ReadProdotto(readProdotto, hideOutOfStockItems);
         }
 
         [HttpPost(Name = nameof(PostProdotto))]
-        public ActionResult<Prodotto> PostProdotto(Prodotto prodotto)
+        public ActionResult<DtoProdotto> PostProdotto(CreateProdotto createProdotto)
         {
             try
             {
-                return Ok(Repository.CreateProdotto(prodotto));
+                return Ok(Business.CreateProdotto(createProdotto));
             }
             catch (Exception ex)
             {
@@ -32,12 +31,12 @@ namespace API.Controllers
         }
 
         [HttpPut(Name = nameof(PutProdotto))]
-        public ActionResult<Prodotto> PutProdotto(Prodotto prodotto)
+        public ActionResult<DtoProdotto> PutProdotto(UpdateProdotto updateProdotto)
         {
             try
             {
-                Repository.UpdateProdotto(prodotto);
-                return CreatedAtRoute(nameof(GetProdottoById), new { prodotto.Id }, prodotto);
+                Business.UpdateProdotto(updateProdotto);
+                return CreatedAtRoute(nameof(GetProdottoById), new { updateProdotto.Id }, updateProdotto);
             }
             catch (Exception ex)
             {
@@ -46,15 +45,15 @@ namespace API.Controllers
         }
 
         [HttpDelete(Name = nameof(DeleteProdotto))]
-        public Prodotto DeleteProdotto(Prodotto prodotto)
+        public DtoProdotto DeleteProdotto(DeleteProdotto deleteProdotto)
         {
-            return Repository.DeleteProdotto(prodotto);
+            return Business.DeleteProdotto(deleteProdotto);
         }
 
         [HttpGet(Name = nameof(GetProdottoById))]
-        public ActionResult<Prodotto> GetProdottoById(long id)
+        public ActionResult<DtoProdotto> GetProdottoById(long id)
         {
-            Prodotto? search = Repository.GetByIdProdotto(id);
+            DtoProdotto? search = Business.GetByIdProdotto(id);
             if (search == null)
             {
                 return NotFound();

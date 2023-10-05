@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business;
+using Business.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Modelli;
-using Modelli.Repository;
 
 namespace API.Controllers
 {
@@ -9,7 +8,7 @@ namespace API.Controllers
     [Route("[controller]/[action]")]
     public class AcquistiController : GenericControllerBase
     {
-        public AcquistiController(IRepository repository) : base(repository) { }
+        public AcquistiController(IBusiness business) : base(business) { }
 
         //[HttpGet(Name = nameof(GetAcquisto))]
         //public List<Acquisto> GetAcquisto(string? query)
@@ -18,9 +17,9 @@ namespace API.Controllers
         //}
 
         [HttpPost(Name = nameof(PostAcquisto))]
-        public Acquisto? PostAcquisto(Acquisto acquisto)
+        public DtoAcquisto? PostAcquisto(CreateAcquisto createAcquisto)
         {
-            return Repository.CreateAcquisto(acquisto);
+            return Business.CreateAcquisto(createAcquisto);
         }
 
         //[HttpPut(Name = nameof(PutAcquisto))]
@@ -30,9 +29,9 @@ namespace API.Controllers
         //}
 
         [HttpDelete(Name = nameof(DeleteAcquisto))]
-        public Acquisto DeleteAcquisto(Acquisto acquisto)
+        public DtoAcquisto DeleteAcquisto(DeleteAcquisto deleteAcquisto)
         {
-            return Repository.DeleteAcquisto(acquisto);
+            return Business.DeleteAcquisto(deleteAcquisto);
         }
     }
 }
