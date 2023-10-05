@@ -1,3 +1,4 @@
+using Business;
 using Microsoft.EntityFrameworkCore;
 using Modelli;
 using Modelli.Repository;
@@ -15,6 +16,7 @@ builder.Services.AddPooledDbContextFactory<ECommerceDbContext>(opt =>
     opt.UseSqlServer("Server=localhost,2433;Database=Ecommerce;User Id=sa;Password=p4ssw0rD;Encrypt=False"));
 
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IBusiness, Business.Business>();
 
 
 var app = builder.Build();

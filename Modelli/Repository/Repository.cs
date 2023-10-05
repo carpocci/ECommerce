@@ -1,94 +1,71 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Modelli.Dto;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modelli.Repository;
 
 public class Repository : IRepository
 {
     protected ECommerceDbContext Context { get; }
-    protected IMapper Mapper { get; }
-
 
     public Repository(IDbContextFactory<ECommerceDbContext> factory)
     {
         Context = factory.CreateDbContext();
-
-        Mapper = new Mapper(
-            new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Utente, DtoUtente>();
-                cfg.CreateMap<DtoUtente, Utente>();
-
-                cfg.CreateMap<CreateUtente, Utente>();
-                cfg.CreateMap<ReadUtente, Utente>();
-                cfg.CreateMap<UpdateUtente, Utente>();
-                cfg.CreateMap<DeleteUtente, Utente>();
-            }));
     }
 
     #region Utente
 
-    public DtoUtente CreateUtente(CreateUtente createUtente)
+    public Utente CreateUtente(Utente utente)
     {
-        Utente utente = Mapper.Map<Utente>(createUtente);
         Context.Add(utente);
         Context.SaveChanges();
-        return Mapper.Map<DtoUtente>(utente);
+        return utente;
     }
 
-    public List<DtoUtente> SearchUtente(ReadUtente readUtente)
+    public List<Utente> SearchUtente(Utente utente)
     {
         //DbSet<Utente> dbSetUtenti = Context.ListaUtenti;
         //IQueryable<Utente> iQueryableUtenti = dbSetUtenti.Where(u => u.Username.Contains(ricerca) || u.Nome.Contains(ricerca) || u.Cognome.Contains(ricerca));
         //return iQueryableUtenti.ToList();
 
         IQueryable<Utente> iQueryableUtenti = Context.ListaUtenti.AsQueryable();
-        if (readUtente.Username != null)
-            iQueryableUtenti = iQueryableUtenti.Where(u => u.Username.Contains(readUtente.Username));
-        if (readUtente.Nome != null)
-            iQueryableUtenti = iQueryableUtenti.Where(u => u.Nome.Contains(readUtente.Nome));
-        if (readUtente.Cognome != null)
-            iQueryableUtenti = iQueryableUtenti.Where(u => u.Cognome.Contains(readUtente.Cognome));
+        if (utente.Username != null)
+            iQueryableUtenti = iQueryableUtenti.Where(u => u.Username.Contains(utente.Username));
+        if (utente.Nome != null)
+            iQueryableUtenti = iQueryableUtenti.Where(u => u.Nome.Contains(utente.Nome));
+        if (utente.Cognome != null)
+            iQueryableUtenti = iQueryableUtenti.Where(u => u.Cognome.Contains(utente.Cognome));
 
-        return iQueryableUtenti.Select(u => Mapper.Map<DtoUtente>(u)).ToList();
+        return iQueryableUtenti.ToList();
 
     }
 
-    public DtoUtente EditUtente(UpdateUtente updateUtente)
+    public Utente EditUtente(Utente utente)
     {
-        Utente utente = Context.ListaUtenti.Where(u => u.Id == updateUtente.Id).First();
+        Utente search = GetUtenteById(utente.Id);
 
-        if (updateUtente.Username != null)
-            utente.Username = updateUtente.Username;
-        if (updateUtente.Nome != null)
-            utente.Nome = updateUtente.Nome;
-        if (updateUtente.Cognome != null)
-            utente.Cognome = updateUtente.Cognome;
+        if (utente.Username != null)
+            search.Username = utente.Username;
+        if (utente.Nome != null)
+            search.Nome = utente.Nome;
+        if (utente.Cognome != null)
+            search.Cognome = utente.Cognome;
 
-        Context.Update(utente);
-        Context.SaveChanges(true);
-        return Mapper.Map<DtoUtente>(utente);
+        Context.Update(search);
+        Context.SaveChanges();
+        return search;
     }
 
-    public DtoUtente DeleteUtente(DeleteUtente deleteUtente)
+    public Utente DeleteUtente(Utente utente)
     {
-        Utente utente = Context.ListaUtenti.Where(u => u.Id == deleteUtente.Id).First();
+        Utente _ = GetUtenteById(utente.Id);
         Context.Remove(utente);
         Context.SaveChanges();
-        return Mapper.Map<DtoUtente>(utente);
+        return utente;
     }
 
-    public DtoUtente GetUtenteById(long id)
+    public Utente GetUtenteById(long id)
     {
-        return Mapper.Map<DtoUtente>(Context.ListaUtenti.Where(u => u.Id == id).First());
-
+        return Context.ListaUtenti.Where(u => u.Id == id).FirstOrDefault() ?? throw new Exception("utente non trovato");
     }
 
     #endregion

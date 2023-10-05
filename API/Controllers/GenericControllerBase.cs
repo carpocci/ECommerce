@@ -1,19 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Modelli;
-using Modelli.Repository;
-using AutoMapper;
 
 namespace API.Controllers
 {
     public class GenericControllerBase : ControllerBase
     {
-        protected IRepository Repository { get; }
+        protected IBusiness Business { get; }
 
-        public GenericControllerBase(IRepository repository)
+        public GenericControllerBase(IBusiness business)
         {
-            Repository = repository;
+            Business = business;
         }
     }
 }

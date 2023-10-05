@@ -1,25 +1,18 @@
-﻿using Modelli.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Modelli.Repository
+﻿namespace Modelli.Repository
 {
     public interface IRepository
     {
         #region Utente
 
-        DtoUtente CreateUtente(CreateUtente createUtente);
+        Utente CreateUtente(Utente utente);
 
-        List<DtoUtente> SearchUtente(ReadUtente readUtente);
+        List<Utente> SearchUtente(Utente utente);
 
-        DtoUtente EditUtente(UpdateUtente updateUtente);
+        Utente EditUtente(Utente utente);
 
-        DtoUtente DeleteUtente(DeleteUtente deleteUtente);
+        Utente DeleteUtente(Utente utente);
 
-        DtoUtente GetUtenteById(long id);
+        Utente GetUtenteById(long id);
 
         #endregion
 
