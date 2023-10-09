@@ -23,10 +23,6 @@ public class Repository : IRepository
 
     public List<Utente> SearchUtente(Utente utente)
     {
-        //DbSet<Utente> dbSetUtenti = Context.ListaUtenti;
-        //IQueryable<Utente> iQueryableUtenti = dbSetUtenti.Where(u => u.Username.Contains(ricerca) || u.Nome.Contains(ricerca) || u.Cognome.Contains(ricerca));
-        //return iQueryableUtenti.ToList();
-
         IQueryable<Utente> iQueryableUtenti = Context.ListaUtenti.AsQueryable();
         if (utente.Username != null)
             iQueryableUtenti = iQueryableUtenti.Where(u => u.Username.Contains(utente.Username));
@@ -36,7 +32,6 @@ public class Repository : IRepository
             iQueryableUtenti = iQueryableUtenti.Where(u => u.Cognome.Contains(utente.Cognome));
 
         return iQueryableUtenti.ToList();
-
     }
 
     public Utente EditUtente(Utente utente)
@@ -65,7 +60,7 @@ public class Repository : IRepository
 
     public Utente GetUtenteById(long id)
     {
-        return Context.ListaUtenti.Where(u => u.Id == id).FirstOrDefault() ?? throw new Exception("utente non trovato");
+        return Context.ListaUtenti.Where(u => u.Id == id).FirstOrDefault() ?? throw new Exception("Utente non trovato");
     }
 
     #endregion
@@ -83,16 +78,16 @@ public class Repository : IRepository
         return prodotto;
     }
 
-    public List<Prodotto> ReadProdotto(string ricerca = "", bool hideOutOfStockItems = true)
+    public List<Prodotto> SearchProdotto(Prodotto prodotto, bool hideOutOfStockItems = true)
     {
-        DbSet<Prodotto> dbSetProdotti = Context.ListaProdotti;
-        IQueryable<Prodotto> iQueryableProdotti = dbSetProdotti.Where(p => p.Nome.Contains(ricerca));
-        if (hideOutOfStockItems)
-            iQueryableProdotti = iQueryableProdotti.Where(p => p.Quantità > 0);
-        return iQueryableProdotti.ToList();
+        IQueryable<Prodotto> iQueryableUtenti = Context.ListaProdotti.AsQueryable();
+        if (prodotto.Nome != null)
+            iQueryableUtenti = iQueryableUtenti.Where(u => u.Nome.Contains(prodotto.Nome));
+
+        return iQueryableUtenti.ToList();
     }
 
-    public Prodotto? UpdateProdotto(Prodotto prodotto)
+    public Prodotto EditProdotto(Prodotto prodotto)
     {
         if (prodotto.Quantità < 0)
         {
@@ -110,9 +105,9 @@ public class Repository : IRepository
         return prodotto;
     }
 
-    public Prodotto? GetByIdProdotto(long id)
+    public Prodotto GetProdottoById(long id)
     {
-        return Context.ListaProdotti.Where(p => p.Id == id).FirstOrDefault();
+        return Context.ListaProdotti.Where(p => p.Id == id).FirstOrDefault() ?? throw new Exception("Prodotto non trovato");
 
     }
 
@@ -146,12 +141,12 @@ public class Repository : IRepository
         return acquisto;
     }
 
-    public List<Acquisto> ReadAcquisto(string ricerca)
+    public List<Acquisto> SearchAcquisto(Acquisto acquisto)
     {
         throw new NotImplementedException();
     }
 
-    public Acquisto? UpdateAcquisto(Acquisto acquisto)
+    public Acquisto EditAcquisto(Acquisto acquisto)
     {
         throw new NotImplementedException();
     }
@@ -163,9 +158,15 @@ public class Repository : IRepository
         return acquisto;
     }
 
-    public Acquisto? GetByIdAcquisto(long id)
+    public Acquisto GetAcquistoById(long id)
     {
-        return Context.Find<Acquisto>(id);
+        return Context
+            .ListaAcquisti
+            .Include(a => a.Utente)
+            .Include(a => a.Prodotto)
+            .Where(a => a.Id == id)
+            .FirstOrDefault()
+            ?? throw new Exception("Acquisto non trovato");
     }
 
     #endregion

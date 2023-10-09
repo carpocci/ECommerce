@@ -20,13 +20,13 @@
 
         Prodotto CreateProdotto(Prodotto prodotto);
 
-        List<Prodotto> ReadProdotto(string ricerca, bool hideOutOfStockItems = true);
+        List<Prodotto> SearchProdotto(Prodotto prodotto, bool hideOutOfStockItems = true);
 
-        Prodotto? UpdateProdotto(Prodotto prodotto);
+        Prodotto EditProdotto(Prodotto prodotto);
 
         Prodotto DeleteProdotto(Prodotto prodotto);
 
-        Prodotto? GetByIdProdotto(long id);
+        Prodotto GetProdottoById(long id);
 
         #endregion
 
@@ -34,13 +34,13 @@
 
         Acquisto? CreateAcquisto(Acquisto acquisto);
 
-        List<Acquisto> ReadAcquisto(string ricerca);
+        List<Acquisto> SearchAcquisto(Acquisto acquisto);
 
-        Acquisto? UpdateAcquisto(Acquisto acquisto);
+        Acquisto EditAcquisto(Acquisto acquisto);
 
         Acquisto DeleteAcquisto(Acquisto acquisto);
 
-        Acquisto? GetByIdAcquisto(long id);
+        Acquisto GetAcquistoById(long id);
 
         #endregion
     }

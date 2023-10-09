@@ -14,7 +14,7 @@ namespace API.Controllers
         [HttpGet(Name = nameof(GetProdotto))]
         public List<DtoProdotto> GetProdotto(ReadProdotto readProdotto, bool hideOutOfStockItems = true)
         {
-            return Business.ReadProdotto(readProdotto, hideOutOfStockItems);
+            return Business.SearchProdotto(readProdotto, hideOutOfStockItems);
         }
 
         [HttpPost(Name = nameof(PostProdotto))]
@@ -35,7 +35,7 @@ namespace API.Controllers
         {
             try
             {
-                Business.UpdateProdotto(updateProdotto);
+                Business.EditProdotto(updateProdotto);
                 return CreatedAtRoute(nameof(GetProdottoById), new { updateProdotto.Id }, updateProdotto);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace API.Controllers
         [HttpGet(Name = nameof(GetProdottoById))]
         public ActionResult<DtoProdotto> GetProdottoById(long id)
         {
-            DtoProdotto? search = Business.GetByIdProdotto(id);
+            DtoProdotto? search = Business.GetProdottoById(id);
             if (search == null)
             {
                 return NotFound();
