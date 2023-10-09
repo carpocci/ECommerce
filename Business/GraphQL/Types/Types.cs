@@ -1,9 +1,4 @@
 ﻿using Modelli;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.GraphQL.Types;
 
@@ -46,17 +41,7 @@ public class AcquistoObjectType : ObjectType<Acquisto>
         descriptor.Field(a => a.IdUtente).Description("Id dell'utente che ha effettuato l'acquisto");
         descriptor.Field(a => a.IdProdotto).Description("Id del prodotto acquistato");
         descriptor.Field(a => a.Quantità).Description("Quantità acquistata");
-    }
-    private class Resolver
-    {
-        public Utente? GetUtente([Parent] Acquisto acquisto, ECommerceDbContext context)
-        {
-            return context.ListaUtenti.Where(u => u.Id == acquisto.IdUtente).FirstOrDefault();
-        }
-
-        public Prodotto? GetProdotto([Parent] Acquisto acquisto, ECommerceDbContext context)
-        {
-            return context.ListaProdotti.Where(p => p.Id == acquisto.IdProdotto).FirstOrDefault();
-        }
+        descriptor.Field(a => a.Utente);
+        descriptor.Field(a => a.Prodotto);
     }
 }

@@ -32,8 +32,8 @@ namespace Business
                     cfg.CreateMap<UpdateProdotto, Prodotto>();
                     cfg.CreateMap<DeleteProdotto, Prodotto>();
 
-                    cfg.CreateMap<Utente, DtoUtente>();
-                    cfg.CreateMap<DtoUtente, Utente>();
+                    cfg.CreateMap<Acquisto, DtoAcquisto>();
+                    cfg.CreateMap<DtoAcquisto, Acquisto>();
 
                     cfg.CreateMap<CreateAcquisto, Acquisto>();
                     cfg.CreateMap<ReadAcquisto, Acquisto>();
@@ -77,27 +77,27 @@ namespace Business
 
         public DtoProdotto CreateProdotto(CreateProdotto createProdotto)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoProdotto>(Repository.CreateProdotto(Mapper.Map<Prodotto>(createProdotto)));
         }
 
-        public List<DtoProdotto> ReadProdotto(ReadProdotto readProdotto, bool hideOutOfStockItems = true)
+        public List<DtoProdotto> SearchProdotto(ReadProdotto readProdotto, bool hideOutOfStockItems = true)
         {
-            throw new NotImplementedException();
+            return Repository.SearchProdotto(Mapper.Map<Prodotto>(readProdotto)).Select(p => Mapper.Map<DtoProdotto>(p)).ToList();
         }
 
-        public DtoProdotto? UpdateProdotto(UpdateProdotto updateProdotto)
+        public DtoProdotto? EditProdotto(UpdateProdotto updateProdotto)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoProdotto>(Repository.EditProdotto(Mapper.Map<Prodotto>(updateProdotto)));
         }
 
         public DtoProdotto DeleteProdotto(DeleteProdotto deleteProdotto)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoProdotto>(Repository.DeleteProdotto(Mapper.Map<Prodotto>(deleteProdotto)));
         }
 
-        public DtoProdotto? GetByIdProdotto(long id)
+        public DtoProdotto? GetProdottoById(long id)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoProdotto>(Repository.GetProdottoById(id));
         }
 
         #endregion
@@ -106,27 +106,27 @@ namespace Business
 
         public DtoAcquisto? CreateAcquisto(CreateAcquisto createAcquisto)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoAcquisto>(Repository.CreateAcquisto(Mapper.Map<Acquisto>(createAcquisto)));
         }
 
-        public List<DtoAcquisto> ReadAcquisto(ReadAcquisto readAcquisto)
+        public List<DtoAcquisto> SearchAcquisto(ReadAcquisto readAcquisto)
         {
-            throw new NotImplementedException();
+            return Repository.SearchAcquisto(Mapper.Map<Acquisto>(readAcquisto)).Select(p => Mapper.Map<DtoAcquisto>(p)).ToList();
         }
 
-        public DtoAcquisto? UpdateAcquisto(UpdateAcquisto updateAcquisto)
+        public DtoAcquisto? EditAcquisto(UpdateAcquisto updateAcquisto)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoAcquisto>(Repository.EditAcquisto(Mapper.Map<Acquisto>(updateAcquisto)));
         }
 
         public DtoAcquisto DeleteAcquisto(DeleteAcquisto deleteAcquisto)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoAcquisto>(Repository.DeleteAcquisto(Mapper.Map<Acquisto>(deleteAcquisto)));
         }
 
-        public DtoAcquisto? GetByIdAcquisto(long id)
+        public DtoAcquisto GetAcquistoById(long id)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<DtoAcquisto>(Repository.GetAcquistoById(id));
         }
 
         #endregion

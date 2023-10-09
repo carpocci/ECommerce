@@ -33,5 +33,19 @@ namespace API.Controllers
         {
             return Business.DeleteAcquisto(deleteAcquisto);
         }
+
+        [HttpPost(Name = nameof(GetAcquistoById))]
+        public ActionResult<DtoAcquisto> GetAcquistoById(long id)
+        {
+            try
+            {
+                DtoAcquisto dtoAcquisto = Business.GetAcquistoById(id);
+                return Ok(dtoAcquisto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

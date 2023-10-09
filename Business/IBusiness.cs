@@ -22,13 +22,13 @@ namespace Business
 
         DtoProdotto CreateProdotto(CreateProdotto createProdotto);
 
-        List<DtoProdotto> ReadProdotto(ReadProdotto readProdotto, bool hideOutOfStockItems = true);
+        List<DtoProdotto> SearchProdotto(ReadProdotto readProdotto, bool hideOutOfStockItems = true);
 
-        DtoProdotto? UpdateProdotto(UpdateProdotto updateProdotto);
+        DtoProdotto? EditProdotto(UpdateProdotto updateProdotto);
 
         DtoProdotto DeleteProdotto(DeleteProdotto deleteProdotto);
 
-        DtoProdotto? GetByIdProdotto(long id);
+        DtoProdotto? GetProdottoById(long id);
 
         #endregion
 
@@ -36,13 +36,13 @@ namespace Business
 
         DtoAcquisto? CreateAcquisto(CreateAcquisto createAcquisto);
 
-        List<DtoAcquisto> ReadAcquisto(ReadAcquisto readAcquisto);
+        List<DtoAcquisto> SearchAcquisto(ReadAcquisto readAcquisto);
 
-        DtoAcquisto? UpdateAcquisto(UpdateAcquisto updateAcquisto);
+        DtoAcquisto? EditAcquisto(UpdateAcquisto updateAcquisto);
 
         DtoAcquisto DeleteAcquisto(DeleteAcquisto deleteAcquisto);
 
-        DtoAcquisto? GetByIdAcquisto(long id);
+        DtoAcquisto GetAcquistoById(long id);
 
         #endregion
     }

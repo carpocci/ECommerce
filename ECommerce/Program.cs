@@ -69,7 +69,7 @@ while (true)
         case "cerca prodotto":
             Console.Write("Query: ");
             string query_p = Console.ReadLine() ?? "";
-            foreach (Prodotto prodottooo in repository.ReadProdotto(query_p))
+            foreach (Prodotto prodottooo in repository.SearchProdotto(query_p))
             {
                 Console.WriteLine(prodottooo);
             }
