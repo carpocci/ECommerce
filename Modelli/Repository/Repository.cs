@@ -52,10 +52,10 @@ public class Repository : IRepository
 
     public Utente DeleteUtente(Utente utente)
     {
-        Utente _ = GetUtenteById(utente.Id);
-        Context.Remove(utente);
+        Utente u = GetUtenteById(utente.Id);
+        Context.Remove(u);
         Context.SaveChanges();
-        return utente;
+        return u;
     }
 
     public Utente GetUtenteById(long id)
