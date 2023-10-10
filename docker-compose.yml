@@ -15,8 +15,6 @@ services:
       MSSQL_SA_PASSWORD: p4ssw0rD
     ports:
       - "2433:1433"
-    expose:
-      - "1433"
     volumes:
       - "mssql-server:/var/opt/mssql"
 
